@@ -1,41 +1,35 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+} from 'react-router-dom';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/my-profile">MyProfile</Link>
-            </li>
-            <li>
-              <Link to="/user-profile/janedoe">Jane Doe Profile</Link>
-            </li>
-            <li>
-              <Link to="/user-profile/johndoe">John Doe Profile</Link>
-            </li>
-          </ul>
-        </nav>
+        <div>
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/my-profile">
-            <MyProfile />
-          </Route>
-          <Route path="/user-profile/:githubLogin" component={UserProfile} />
-          <Route exact path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+          <div>
+            <button type="submit"><Link to="/ingredients">Go to Ingredients</Link></button>
+          </div>
+
+          <div>
+            <button type="submit"><Link to="/recipes">Go to recipes</Link></button>
+          </div>
+          <Switch>
+            <Route path="/ingredients">
+              {/* <Ingredients /> */}
+            </Route>
+            <Route path="/recipes">
+              {/* <Recipes /> */}
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
