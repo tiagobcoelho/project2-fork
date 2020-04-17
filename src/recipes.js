@@ -1,7 +1,17 @@
 import React from "react";
 
-function Recipe() {
-  return <h1>Recipes</h1>;
+
+class recipes extends React.Component{
+    constructor()
+    super()
 }
+
+render ()
+return (
+    <div>
+        <h1>Recipes</h1>
+    </div>
+)
+
 
 export default Recipe;
