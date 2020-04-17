@@ -1,17 +1,26 @@
-import React from "react";
+import React from 'react';
 
 
-class recipes extends React.Component{
-    constructor()
-    super()
+class Recipes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      recipes: [],
+    };
+  }
+
+  render() {
+    const { recipes } = this.state;
+    return (
+      <div>
+        <h1>
+          Recipes
+          {recipes}
+        </h1>
+      </div>
+    );
+  }
 }
 
-render ()
-return (
-    <div>
-        <h1>Recipes</h1>
-    </div>
-)
 
-
-export default Recipe;
+export default Recipes;

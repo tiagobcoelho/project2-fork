@@ -1,18 +1,24 @@
-  
-import React from "react";
+import React from 'react';
 
 
-class Ingredient extends React.Component{
-    constructor()
-    super()
-}
+class Ingredient extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      ingredients: [],
+    };
+  }
 
-render ()
-return (
-    <div>
+
+  render() {
+    const { ingredients } = this.state;
+    return (
+      <div>
         <h1>Ingredients</h1>
-    </div>
-)
-
+        {ingredients}
+      </div>
+    );
+  }
+}
 
 export default Ingredient;
