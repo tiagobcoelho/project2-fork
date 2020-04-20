@@ -29,6 +29,8 @@ function App() {
             <Route path="/recipes">
               <Recipes />
             </Route>
+
+            </Route>
           </Switch>
         </div>
       </Router>
