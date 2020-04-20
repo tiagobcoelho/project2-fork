@@ -18,7 +18,6 @@ class Ingredient extends React.Component {
       .then((response) => response.data.meals)
       .then((ingredientsData) => {
         this.setState({ ingredientsList: ingredientsData });
-        console.log(ingredientsData);
       });
   }
 
@@ -30,7 +29,7 @@ class Ingredient extends React.Component {
         <h1>Ingredients</h1>
         {ingredientsList.map((ingredient) => (
           <IngredientsList
-            key={ingredient.IdIngredient}
+            key={ingredient.idIngredient}
             name={ingredient.strIngredient}
           />
         ))}
