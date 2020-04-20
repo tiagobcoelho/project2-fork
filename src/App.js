@@ -6,6 +6,8 @@ import {
   Link,
 } from 'react-router-dom';
 import './App.css';
+import Ingredient from './components/ingredient';
+import Recipes from './components/recipes';
 
 function App() {
   return (
@@ -22,10 +24,12 @@ function App() {
           </div>
           <Switch>
             <Route path="/ingredients">
-              {/* <Ingredients /> */}
+              <Ingredient />
             </Route>
             <Route path="/recipes">
-              {/* <Recipes /> */}
+              <Recipes />
+            </Route>
+
             </Route>
           </Switch>
         </div>
