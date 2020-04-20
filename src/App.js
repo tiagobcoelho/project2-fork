@@ -9,8 +9,27 @@ import './App.css';
 import Ingredient from './components/ingredient';
 import Recipes from './components/recipes';
 
-function App() {
-  return (
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state={ingredientsList:[]}
+  }
+
+  componentDidMount(){
+    const url = `https://www.themealdb.com/api/json/v1/1/list.php?i=ingredient`;
+    axios
+    .get(url)
+    .then(response => response.data)
+    .then(ingredientsData =>{
+      this.setState({ingredientsList: ingredientsData})
+    })
+    console.log(ingredientsData)
+  }
+
+
+
+  render() {
+    return(
     <div className="App">
       <Router>
         <div>
@@ -34,6 +53,9 @@ function App() {
       </Router>
     </div>
   );
+
+  }
+    
 }
 
 export default App;
