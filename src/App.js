@@ -6,8 +6,8 @@ import {
   Link,
 } from 'react-router-dom';
 import './App.css';
-import Ingredient from './ingredient';
-import Recipes from './recipes';
+import Ingredient from './components/ingredient';
+import Recipes from './components/recipes';
 
 function App() {
   return (

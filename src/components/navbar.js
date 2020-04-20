@@ -1,19 +1,11 @@
-import react from 'react'
+import React from 'react';
 
-class navbar extends React.Component{
-    constructor(){
-        super()
-        
-    }
-render(){
-return(
+function Navbar() {
+  return (
     <div>
-    <img ></img>
-    
+      <img src="" alt="" />
     </div>
-
-)
-}
+  );
 }
 
-export default navbar
+export default Navbar;
