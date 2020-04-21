@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
-import Ingredient from "./components/ingredient";
-import Recipes from "./components/recipes";
+import Ingredient from "./components/Ingredient";
+import Recipes from "./components/Recipes";
 
 function App() {
   return (
