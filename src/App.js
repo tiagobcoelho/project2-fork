@@ -1,26 +1,24 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-} from 'react-router-dom';
-import './App.css';
-import Ingredient from './components/ingredient';
-import Recipes from './components/recipes';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import "./App.css";
+import Ingredient from "./components/ingredient";
+import Recipes from "./components/recipes";
 
 function App() {
   return (
     <div className="App">
       <Router>
         <div>
-
           <div>
-            <button type="submit"><Link to="/ingredients">Go to Ingredients</Link></button>
+            <button type="submit">
+              <Link to="/ingredients">Go to Ingredients</Link>
+            </button>
           </div>
 
           <div>
-            <button type="submit"><Link to="/recipes">Go to recipes</Link></button>
+            <button type="submit">
+              <Link to="/recipes">Go to recipes</Link>
+            </button>
           </div>
           <Switch>
             <Route path="/ingredients">
@@ -28,8 +26,6 @@ function App() {
             </Route>
             <Route path="/recipes">
               <Recipes />
-            </Route>
-
             </Route>
           </Switch>
         </div>
