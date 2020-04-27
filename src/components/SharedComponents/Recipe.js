@@ -7,15 +7,6 @@ import { GiCookingPot } from 'react-icons/gi';
 import { MdPeople, MdArrowBack } from 'react-icons/md';
 import { AiFillClockCircle } from 'react-icons/ai';
 
-
-const time = [30, 45, 60, 90];
-const level = ['Easy', 'Medium', 'Hard'];
-const people = [1, 2, 3, 4];
-
-function randomNum(num) {
-  return Math.floor(Math.random() * num);
-}
-
 function strManipulation(str) {
   return str.replace(/(\r\n|\n|\r)/gm, '').split('. ').map((line, index) => `${index + 1} - ${line}`).join('.\n');
 }
@@ -25,13 +16,20 @@ class Recipe extends Component {
     super(props);
     this.state = {
       recipe: [],
-      path:'',
+      path: '',
     };
   }
 
   componentDidMount() {
     const { location } = this.props;
-    const { name, rating, from } = location.state;
+    const {
+      name,
+      rating,
+      time,
+      level,
+      people,
+      from,
+    } = location.state;
     const url = `https://www.themealdb.com/api/json/v2/9973533/search.php?s=${name}`;
     axios
       .get(url)
@@ -40,15 +38,16 @@ class Recipe extends Component {
         recipeData.strInstructions = strManipulation(recipeData.strInstructions);
         const newInfo = {
           recipeRating: rating,
-          perpTime: time[randomNum(4)],
-          difficulty: level[randomNum(3)],
-          numOfPeople: people[randomNum(4)],
+          perpTime: time,
+          difficulty: level,
+          numOfPeople: people,
         };
         const recipeUpdatedData = { ...recipeData, ...newInfo };
         this.setState({
           recipe: recipeUpdatedData,
           path: from,
         });
+        console.log(from);
       });
   }
 
@@ -57,8 +56,8 @@ class Recipe extends Component {
     return (
       <div className="recipe-container">
         <div className="recipe-card">
-          {path === 'ingredient' ? (
-            <Link to="/ingredients"> 
+          {path === 'ingredients' ? (
+            <Link to="/ingredients">
               <MdArrowBack className="go-back" />
             </Link>
           )

@@ -49,11 +49,25 @@ a{
   align-items: center;
 }
 
-/******* INGREDIENTS COMPONENT/RECIPES COMPONENT *******/
+/******* INGREDIENTS COMPONENT/RECIPES COMPONENT/MEALS LIST COMPONENT *******/
 
 .ingredients-container,
 .recipes-container{
   text-align: center;
+}
+
+.back-to-categories{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: fit-content;
+  height: 18px;
+  margin-left: 50px;
+  cursor: pointer;
+}
+
+.back-to-categories p{
+  margin-left: 10px;
 }
 
 .ingredients-cards-container,
@@ -78,6 +92,7 @@ a{
   padding: 20px;
   margin: 20px ;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  cursor: pointer;
   transition: all .3s ease-in-out;
 }
 
@@ -108,6 +123,32 @@ a{
   background-color: rgb(182, 181, 181);
 }
 
+.category-meal-card-title a{
+  color: black;
+}
+
+.extra-info-card-container{
+  display: none;
+}
+.extra-info-card p{
+width: 50px;
+text-align: center;
+}
+
+.category-meal-card:hover > .extra-info-card-container{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40%;
+  display: flex;
+  align-items: center;
+  background-color: rgb(182, 181, 181);
+  justify-content: space-around;
+  text-align: center;
+  font-size: 14px;
+  z-index: 2;
+}
+
 /******* FILTERS *******/
 
 .filters-wrapper{
@@ -115,7 +156,7 @@ a{
   justify-content: space-evenly;
   align-items: center;
   background-color: rgb(182, 181, 181);
-  width: 80px;
+  width: fit-content;
   padding: 5px 8px;
   margin: 30px 15px;
   border-radius: 20px;

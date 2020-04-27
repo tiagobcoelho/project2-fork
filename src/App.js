@@ -5,11 +5,11 @@ import {
   Route,
 } from 'react-router-dom';
 import './App.css';
-import Recipes from './components/Recipes';
-import Ingredient from './components/Ingredient';
-import Home from './components/Home';
-import Navbar from './components/Navbar';
-import Recipe from './components/Recipe';
+import Recipes from './components/RecipesSide/Recipes';
+import Ingredient from './components/IngredientsSide/Ingredient';
+import Home from './components/SharedComponents/Home';
+import Navbar from './components/SharedComponents/Navbar';
+import Recipe from './components/SharedComponents/Recipe';
 
 
 function App() {

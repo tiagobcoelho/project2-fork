@@ -2,11 +2,14 @@ import React from 'react';
 import axios from 'axios';
 import IngredientsList from './IngredientsList';
 import Filters from './Filters';
-import SearchBar from './SearchBar';
+import SearchBar from '../SharedComponents/SearchBar';
 import RecipesDropdown from './RecipesDropdown';
 import NumOfRecipesDisplay from './NumOfRecipesDisplay';
 
 const rating = [1, 2, 3, 4, 5];
+const time = [30, 45, 60, 90];
+const level = ['Easy', 'Medium', 'Hard'];
+const people = [1, 2, 3, 4];
 
 function randomNum(num) {
   return Math.floor(Math.random() * num);
@@ -87,8 +90,13 @@ class Ingredient extends React.Component {
           this.setState({ recipesList: recipesListData });
         } else {
           const updatedRecipesList = recipesListData.map((recipe) => {
-            const recipeRating = { rating: rating[randomNum(5)] };
-            return { ...recipe, ...recipeRating };
+            const extraInfo = {
+              rating: rating[randomNum(5)],
+              time: time[randomNum(4)],
+              level: level[randomNum(3)],
+              people: people[randomNum(4)],
+            };
+            return { ...recipe, ...extraInfo };
           });
           this.setState({ recipesList: updatedRecipesList });
         }
@@ -100,7 +108,7 @@ class Ingredient extends React.Component {
     this.setState({ showRecipeList: !showRecipeList });
   }
 
-  selectRecipe = (name, recipeRating) => {
+  selectRecipe = (name, recipeRating, recipeTime, recipeLevel, recipePeople) => {
     const searchValue = name.split(' ').join('_');
     const { history } = this.props;
     history.push({
@@ -108,6 +116,9 @@ class Ingredient extends React.Component {
       state: {
         name: searchValue,
         rating: recipeRating,
+        time: recipeTime,
+        level: recipeLevel,
+        people: recipePeople,
         from: 'ingredients',
       },
     });
@@ -143,6 +154,9 @@ class Ingredient extends React.Component {
               key={recipe.idMeal}
               name={recipe.strMeal}
               rating={recipe.rating}
+              time={recipe.time}
+              level={recipe.level}
+              people={recipe.people}
               selectRecipe={this.selectRecipe}
             />
           ))}

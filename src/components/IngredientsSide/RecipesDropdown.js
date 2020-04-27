@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import StarRatings from 'react-star-ratings';
 
-function RecipesDropdown({ name, rating, selectRecipe }) {
+function RecipesDropdown({ name, rating, time, level, people, selectRecipe }) {
   let displayName = name;
   if (name.length > 30) {
     displayName = `${name.substring(0, 30)}...`;
   }
   return (
     <div className="recipes-list-item">
-      <p onClick={() => selectRecipe(name, rating)}>
+      <p onClick={() => selectRecipe(name, rating, time, level, people)}>
         <Link to="/recipe" title={name}>{displayName}</Link>
       </p>
       <StarRatings

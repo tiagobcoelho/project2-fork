@@ -2,10 +2,15 @@ import React from 'react';
 import axios from 'axios';
 import { MdArrowBack } from 'react-icons/md';
 import CategoriesList from './CategoriesList';
-import SearchBar from './SearchBar';
+import SearchBar from '../SharedComponents/SearchBar';
 import MealsList from './MealsList';
+import RecipeFilters from './RecipeFilters';
 
 const rating = [1, 2, 3, 4, 5];
+const time = [30, 45, 60, 90];
+const level = ['Easy', 'Medium', 'Hard'];
+const people = [1, 2, 3, 4];
+
 
 function randomNum(num) {
   return Math.floor(Math.random() * num);
@@ -17,6 +22,7 @@ class Recipes extends React.Component {
     this.state = {
       searchValue: '',
       categories: [],
+      chosenCategory: '',
       allCategoryMeals: [],
       mealsList: [],
       displayCategories: true,
@@ -42,11 +48,17 @@ class Recipes extends React.Component {
       .then((response) => response.data.meals)
       .then((recipesListData) => {
         const updatedRecipesList = recipesListData.map((recipe) => {
-          const recipeRating = { rating: rating[randomNum(5)] };
-          return { ...recipe, ...recipeRating };
+          const extraInfo = {
+            rating: rating[randomNum(5)],
+            time: time[randomNum(4)],
+            level: level[randomNum(3)],
+            people: people[randomNum(4)],
+          };
+          return { ...recipe, ...extraInfo };
         });
         this.setState({
-          allCategoryMeals: updatedRecipesList,
+          chosenCategory: name,
+          allCategoryMeals: [...updatedRecipesList],
           mealsList: updatedRecipesList,
           displayCategories: false,
           displayMeals: true,
@@ -76,16 +88,30 @@ class Recipes extends React.Component {
         .get(url)
         .then((response) => response.data.meals)
         .then((recipesListData) => {
-          const updatedRecipesList = recipesListData.map((recipe) => {
-            const recipeRating = { rating: rating[randomNum(5)] };
-            return { ...recipe, ...recipeRating };
-          });
-          this.setState({
-            searchValue: value,
-            mealsList: updatedRecipesList,
-            displayCategories: false,
-            displayMeals: true,
-          });
+          if (recipesListData !== null) {
+            const updatedRecipesList = recipesListData.map((recipe) => {
+              const extraInfo = {
+                rating: rating[randomNum(5)],
+                time: time[randomNum(4)],
+                level: level[randomNum(3)],
+                people: people[randomNum(4)],
+              };
+              return { ...recipe, ...extraInfo };
+            });
+            this.setState({
+              searchValue: value,
+              mealsList: updatedRecipesList,
+              displayCategories: false,
+              displayMeals: true,
+            });
+          } else {
+            this.setState({
+              searchValue: value,
+              mealsList: [],
+              displayCategories: false,
+              displayMeals: true,
+            });
+          }
         });
     } else {
       this.setState({
@@ -105,7 +131,7 @@ class Recipes extends React.Component {
     });
   }
 
-  selectRecipe = (name, recipeRating) => {
+  selectRecipe = (name, recipeRating, recipeTime, recipeLevel, recipePeople) => {
     const searchValue = name.split(' ').join('_');
     const { history } = this.props;
     history.push({
@@ -113,15 +139,44 @@ class Recipes extends React.Component {
       state: {
         name: searchValue,
         rating: recipeRating,
+        time: recipeTime,
+        level: recipeLevel,
+        people: recipePeople,
         from: 'recipes',
       },
     });
+  }
+
+  handleFilterChange = (event) => {
+    const { value } = event.target;
+    const { mealsList, allCategoryMeals } = this.state;
+    const originalList = allCategoryMeals;
+    switch (value) {
+      case 'time': {
+        const sortedList = mealsList.sort((mealA, mealB) => {
+          return mealA.time - mealB.time;
+        });
+        this.setState({ mealsList: sortedList });
+      }
+        break;
+      case 'rating': {
+        const sortedList = mealsList.sort((mealA, mealB) => {
+          return mealB.rating - mealA.rating;
+        });
+        this.setState({ mealsList: sortedList });
+        break;
+      }
+      default: {
+        this.setState({ mealsList: originalList });
+      }
+    }
   }
 
   render() {
     const {
       searchValue,
       categories,
+      chosenCategory,
       mealsList,
       displayCategories,
       displayMeals,
@@ -139,8 +194,11 @@ class Recipes extends React.Component {
         {displayCategories && <h2>Search Recipe By Category</h2>}
         {insideCategories && (
         <div>
-          <MdArrowBack onClick={this.goBack} />
-          <p>categories</p>
+          <h2>{chosenCategory}</h2>
+          <div className="back-to-categories" onClick={this.goBack}>
+            <MdArrowBack />
+            <p>categories </p>
+          </div>
         </div>
         )}
         {displayCategories && (
@@ -155,8 +213,9 @@ class Recipes extends React.Component {
           ))}
         </div>
         )}
+        {insideCategories && <RecipeFilters handleFilterChange={this.handleFilterChange} />}
         {displayMeals && (
-          mealsList === null || mealsList.length === 0 ? (
+          mealsList.length === 0 ? (
             <div>No results</div>
           )
             : (
@@ -167,6 +226,9 @@ class Recipes extends React.Component {
                     name={meal.strMeal}
                     thumbnail={meal.strMealThumb}
                     rating={meal.rating}
+                    time={meal.time}
+                    level={meal.level}
+                    people={meal.people}
                     selectRecipe={this.selectRecipe}
                   />
                 ))}
