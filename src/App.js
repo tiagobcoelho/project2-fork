@@ -19,6 +19,7 @@ function App() {
     <div className="App">
       <Router>
         <Link to="/"><Logo className="logo" /></Link>
+        <div className='bg'></div>
         <Navbar />
         <Switch>
           <Route path="/" exact component={Home} />
