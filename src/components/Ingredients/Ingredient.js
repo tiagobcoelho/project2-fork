@@ -1,10 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import IngredientsList from './IngredientsList';
-import Filters from './Filters';
-import SearchBar from '../SharedComponents/SearchBar';
-import RecipesDropdown from './RecipesDropdown';
-import NumOfRecipesDisplay from './NumOfRecipesDisplay';
+import IngredientsList from './IngredientsSubcomponents/IngredientsList';
+import Filters from './IngredientsSubcomponents/Filters';
+import SearchBar from '../SharedComponents/SearchBar/SearchBar';
+import RecipesList from '../SharedComponents/RecipesList/RecipesList';
+import NumOfRecipesDisplay from './IngredientsSubcomponents/NumOfRecipesDisplay';
+import './ingredients.scss';
+import SortBy from '../SharedComponents/SortBy/SortBy';
+
 
 const rating = [1, 2, 3, 4, 5];
 const time = [30, 45, 60, 90];
@@ -24,7 +27,7 @@ class Ingredient extends React.Component {
       filters: [],
       searchValue: '',
       recipesList: [],
-      showRecipeList: false,
+      bottomTabExpanded: false,
     };
   }
 
@@ -87,7 +90,7 @@ class Ingredient extends React.Component {
         if (searchIngredients === null) {
           this.setState({ recipesList: [] });
         } else if (recipesListData === null) {
-          this.setState({ recipesList: recipesListData });
+          this.setState({ recipesList: null });
         } else {
           const updatedRecipesList = recipesListData.map((recipe) => {
             const extraInfo = {
@@ -98,14 +101,12 @@ class Ingredient extends React.Component {
             };
             return { ...recipe, ...extraInfo };
           });
-          this.setState({ recipesList: updatedRecipesList });
+          const sortedList = updatedRecipesList.sort((mealA, mealB) => {
+            return mealB.rating - mealA.rating;
+          });
+          this.setState({ recipesList: sortedList });
         }
       });
-  }
-
-  displayRecipeList = () => {
-    const { showRecipeList } = this.state;
-    this.setState({ showRecipeList: !showRecipeList });
   }
 
   selectRecipe = (name, recipeRating, recipeTime, recipeLevel, recipePeople) => {
@@ -124,46 +125,46 @@ class Ingredient extends React.Component {
     });
   }
 
+  handleSortByChange = (event) => {
+    const { value } = event.target;
+    const { recipesList } = this.state;
+      if (value === 'time' ) {
+        const sortedList = recipesList.sort((mealA, mealB) => {
+          return mealA.time - mealB.time;
+        });
+        this.setState({ recipesList: sortedList });
+      } else {
+        const sortedList = recipesList.sort((mealA, mealB) => {
+          return mealB.rating - mealA.rating;
+        });
+        this.setState({ recipesList: sortedList });
+      }
+  }
+
+  toggleBottomTab = () => {
+    const { bottomTabExpanded } = this.state;
+    this.setState({ bottomTabExpanded: !bottomTabExpanded })
+
+  }
+
   render() {
     const {
       ingredientsList,
       filters,
       searchValue,
       recipesList,
-      showRecipeList,
+      bottomTabExpanded,
     } = this.state;
+    console.log(recipesList)
+
     return (
-      <div className="ingredients-container">
-        <h1>Ingredients</h1>
-        {recipesList === null ? (
-          <NumOfRecipesDisplay
-            numOfRecipes={null}
-            displayRecipeList={this.displayRecipeList}
-          />
-        )
-          : (
-            <NumOfRecipesDisplay
-              numOfRecipes={recipesList.length}
-              displayRecipeList={this.displayRecipeList}
-              showRecipeList={showRecipeList}
-            />
-          )}
-        <div className="recipes-list-container">
-          {showRecipeList && recipesList !== null && recipesList.map((recipe) => (
-            <RecipesDropdown
-              key={recipe.idMeal}
-              name={recipe.strMeal}
-              rating={recipe.rating}
-              time={recipe.time}
-              level={recipe.level}
-              people={recipe.people}
-              selectRecipe={this.selectRecipe}
-            />
-          ))}
-        </div>
+      <div className="page-wrapper">
+      <div className="ingredients-left-container">
+        <h1 className='ingredients-title'>Ingredients</h1>
         <SearchBar
           searchValue={searchValue}
           handleChange={this.handleChange}
+          placeholder={'search ingredient'}
         />
         <div className="filters-container">
           {filters.map((filter) => (
@@ -183,6 +184,31 @@ class Ingredient extends React.Component {
             />
           ))}
         </div>
+      </div>
+      <div className={bottomTabExpanded ? "ingredients-container-bottom" : "ingredients-container-right"}>
+      <NumOfRecipesDisplay
+        numOfRecipes={recipesList === null ? null : recipesList.length}
+        toggleBottomTab={this.toggleBottomTab}
+        bottomTabExpanded={bottomTabExpanded}
+      />
+          {recipesList !== null && recipesList.length > 0 && (
+            <SortBy handleSortByChange={this.handleSortByChange} bottomTabExpanded={bottomTabExpanded} />
+          )}
+        <div className={bottomTabExpanded ? "recipes-list-container-bottom" : "recipes-list-container"}>
+          {recipesList !== null && recipesList.map((recipe) => (       
+            <RecipesList
+              key={recipe.idMeal}
+              name={recipe.strMeal}
+              thumbnail={recipe.strMealThumb}
+              rating={recipe.rating}
+              time={recipe.time}
+              level={recipe.level}
+              people={recipe.people}
+              selectRecipe={this.selectRecipe}
+            />
+          ))}
+        </div>
+      </div>
       </div>
     );
   }

@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-function CategoriesList({ name, thumbnail, getRecipesByCat }) {
+function CategoriesList(props) {
+  const {
+    name,
+    thumbnail,
+    getRecipesByCat,
+  } = props;
   return (
     <div className="categories-card" onClick={() => getRecipesByCat(name)}>
       <img src={thumbnail} alt={name} />
@@ -16,6 +21,7 @@ function CategoriesList({ name, thumbnail, getRecipesByCat }) {
 CategoriesList.propTypes = {
   name: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
+  getRecipesByCat: PropTypes.func.isRequired,
 };
 
 export default CategoriesList;

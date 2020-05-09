@@ -1,10 +1,14 @@
 import React from 'react';
 import axios from 'axios';
-import { MdArrowBack } from 'react-icons/md';
-import CategoriesList from './CategoriesList';
-import SearchBar from '../SharedComponents/SearchBar';
-import MealsList from './MealsList';
-import RecipeFilters from './RecipeFilters';
+import CategoriesList from './RecipesSubcomponents/CategoriesList';
+import SearchBar from '../SharedComponents/SearchBar/SearchBar';
+import RecipesList from '../SharedComponents/RecipesList/RecipesList';
+import SortBy from '../SharedComponents/SortBy/SortBy';
+import { IoMdClose } from 'react-icons/io';
+import { IoIosArrowUp } from 'react-icons/io';
+import { IoIosArrowDown } from 'react-icons/io';
+import './recipes.scss';
+
 
 const rating = [1, 2, 3, 4, 5];
 const time = [30, 45, 60, 90];
@@ -23,11 +27,8 @@ class Recipes extends React.Component {
       searchValue: '',
       categories: [],
       chosenCategory: '',
-      allCategoryMeals: [],
       mealsList: [],
-      displayCategories: true,
-      displayMeals: false,
-      insideCategories: false,
+      bottomTabExpanded: false,
     };
   }
 
@@ -56,27 +57,16 @@ class Recipes extends React.Component {
           };
           return { ...recipe, ...extraInfo };
         });
+        const sortedList = updatedRecipesList.sort((mealA, mealB) => {
+          return mealB.rating - mealA.rating;
+        });
         this.setState({
+          searchValue:'',
           chosenCategory: name,
-          allCategoryMeals: [...updatedRecipesList],
-          mealsList: updatedRecipesList,
-          displayCategories: false,
-          displayMeals: true,
-          insideCategories: true,
+          mealsList: sortedList,
+          bottomTabExpanded:true,
         });
       });
-  }
-
-  searchInCategory = (event) => {
-    const { value } = event.target;
-    const { allCategoryMeals } = this.state;
-    const filteredMeals = allCategoryMeals.filter((meal) => {
-      return meal.strMeal.toLowerCase().includes(value.toLowerCase());
-    });
-    this.setState({
-      searchValue: value,
-      mealsList: filteredMeals,
-    });
   }
 
   searchMealByName = (event) => {
@@ -98,18 +88,19 @@ class Recipes extends React.Component {
               };
               return { ...recipe, ...extraInfo };
             });
+            const sortedList = updatedRecipesList.sort((mealA, mealB) => {
+              return mealB.rating - mealA.rating;
+            });
             this.setState({
               searchValue: value,
-              mealsList: updatedRecipesList,
-              displayCategories: false,
-              displayMeals: true,
+              mealsList: sortedList,
+              chosenCategory: ''
             });
           } else {
             this.setState({
               searchValue: value,
               mealsList: [],
-              displayCategories: false,
-              displayMeals: true,
+              chosenCategory: ''
             });
           }
         });
@@ -117,18 +108,9 @@ class Recipes extends React.Component {
       this.setState({
         searchValue: value,
         mealsList: [],
-        displayCategories: true,
-        displayMeals: false,
+        chosenCategory:''
       });
     }
-  }
-
-  goBack = () => {
-    this.setState({
-      displayCategories: true,
-      displayMeals: false,
-      insideCategories: false,
-    });
   }
 
   selectRecipe = (name, recipeRating, recipeTime, recipeLevel, recipePeople) => {
@@ -147,29 +129,29 @@ class Recipes extends React.Component {
     });
   }
 
-  handleFilterChange = (event) => {
+  handleSortByChange = (event) => {
     const { value } = event.target;
-    const { mealsList, allCategoryMeals } = this.state;
-    const originalList = allCategoryMeals;
-    switch (value) {
-      case 'time': {
+    const { mealsList } = this.state;
+      if (value === 'time' ) {
         const sortedList = mealsList.sort((mealA, mealB) => {
           return mealA.time - mealB.time;
         });
         this.setState({ mealsList: sortedList });
-      }
-        break;
-      case 'rating': {
+      } else {
         const sortedList = mealsList.sort((mealA, mealB) => {
           return mealB.rating - mealA.rating;
         });
         this.setState({ mealsList: sortedList });
-        break;
       }
-      default: {
-        this.setState({ mealsList: originalList });
-      }
-    }
+  }
+
+  toggleBottomTab = () => {
+    const { bottomTabExpanded } = this.state;
+    this.setState({
+      bottomTabExpanded: !bottomTabExpanded,
+      chosenCategory: ''
+    })
+
   }
 
   render() {
@@ -178,30 +160,18 @@ class Recipes extends React.Component {
       categories,
       chosenCategory,
       mealsList,
-      displayCategories,
-      displayMeals,
-      insideCategories,
+      bottomTabExpanded
     } = this.state;
+
     return (
-      <div className="recipes-container">
-        <h1>Recipes</h1>
-        {displayCategories && <h2>Search Recipe By Name</h2>}
+      <div className='page-wrapper'>
+      <div className="recipes-container-left">
+        <h1 className='categories-title'>Recipes</h1>
         <SearchBar
           searchValue={searchValue}
-          handleChange={insideCategories ? this.searchInCategory : this.searchMealByName}
+          handleChange={this.searchMealByName}
+          placeholder={'search recipe by name'}
         />
-        {displayCategories && <hr />}
-        {displayCategories && <h2>Search Recipe By Category</h2>}
-        {insideCategories && (
-        <div>
-          <h2>{chosenCategory}</h2>
-          <div className="back-to-categories" onClick={this.goBack}>
-            <MdArrowBack />
-            <p>categories </p>
-          </div>
-        </div>
-        )}
-        {displayCategories && (
         <div className="categories-cards-container">
           {categories.map((category) => (
             <CategoriesList
@@ -212,16 +182,36 @@ class Recipes extends React.Component {
             />
           ))}
         </div>
+        </div>
+        <div className={bottomTabExpanded ? "recipes-container-bottom" : "recipes-container-right"}>
+        {chosenCategory === "" && searchValue === "" && (
+          <div className='search-info'>
+            <p>choose a <span>category</span> or search recipe by <span>name</span></p>
+          </div>
         )}
-        {insideCategories && <RecipeFilters handleFilterChange={this.handleFilterChange} />}
-        {displayMeals && (
+        {chosenCategory !== "" && searchValue === "" && (
+          <div className='search-info'>
+            <p>all recipes for <span>{chosenCategory}</span></p>
+            <IoMdClose className='icon' onClick={this.toggleBottomTab}/>
+          </div>
+        )}
+        {searchValue !== "" && mealsList.length !== 0 && (
+          <div className='search-info'>
+            <p><span>{mealsList.length}</span> recipes avalible</p>
+            {bottomTabExpanded ? <IoIosArrowDown className='icon' onClick={this.toggleBottomTab} /> : <IoIosArrowUp className='icon' onClick={this.toggleBottomTab} />}
+          </div>
+        )}
+        {(chosenCategory !== "" || searchValue !== "" && mealsList.length !== 0) && <SortBy handleSortByChange={this.handleSortByChange} bottomTabExpanded={bottomTabExpanded} />}
+        {(chosenCategory !== "" || searchValue !== "") && (
           mealsList.length === 0 ? (
-            <div>No results</div>
+            <div className='search-info'>
+              <p><span>sorry,</span> no recipes match your search</p>
+            </div>
           )
             : (
-              <div className="category-meals-cards-container">
+              <div className={bottomTabExpanded ? "recipes-list-container-bottom" : "recipes-list-container"}>
                 {mealsList.map((meal) => (
-                  <MealsList
+                  <RecipesList
                     key={meal.idMeal}
                     name={meal.strMeal}
                     thumbnail={meal.strMealThumb}
@@ -235,6 +225,7 @@ class Recipes extends React.Component {
               </div>
             )
         )}
+      </div>
       </div>
     );
   }

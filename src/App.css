@@ -1,9 +1,10 @@
+/*
 a{
   text-decoration: none;
 }
 
 /******* NAVBAR *******/
-
+/*
 .navbar{
   display: flex;
   justify-content: space-between;
@@ -13,27 +14,27 @@ a{
   padding: 10px 30px;
 }
 
-.navbar-logo a{
+.logo a{
   text-decoration: none;
   color: black;
 }
 
-.navbar-items{
+.items{
   display: flex;
 }
 
-.navbar-link{
+.link{
   margin: 0 20px;
   list-style: none;
 }
 
-.navbar-link a{
+.link a{
   text-decoration: none;
   color: black;
 }
 
 /******* HOME *******/
-
+/*
 .container{
   display: flex;
 }
@@ -50,7 +51,7 @@ a{
 }
 
 /******* INGREDIENTS COMPONENT/RECIPES COMPONENT/MEALS LIST COMPONENT *******/
-
+/*
 .ingredients-container,
 .recipes-container{
   text-align: center;
@@ -150,7 +151,7 @@ text-align: center;
 }
 
 /******* FILTERS *******/
-
+/*
 .filters-wrapper{
   display: flex;
   justify-content: space-evenly;
@@ -168,7 +169,7 @@ text-align: center;
 }
 
 /******* SEARCH BAR *******/
-
+/*
 .search-bar{
   display: flex;
   margin: 20px auto;
@@ -195,7 +196,7 @@ text-align: center;
 }
 
 /******* NUM OF RECIPES DISPLAY *******/
-
+/*
 .num-of-recipes-wrapper{
   width: 530px;
   position: relative;
@@ -224,7 +225,7 @@ text-align: center;
 }
 
 /******* RECIPES LIST *******/
-
+/*
 .recipes-list-container{
   display: flex;
   flex-direction: column;
@@ -251,7 +252,7 @@ text-align: center;
 }
 
 /******* RECIPE PAGE *******/
-
+/*
 .recipe-card{
   position: relative;
   display: flex;
@@ -303,7 +304,7 @@ text-align: center;
 .icon{
   font-size: 26px;
 }
-
+*/
 
 
 
