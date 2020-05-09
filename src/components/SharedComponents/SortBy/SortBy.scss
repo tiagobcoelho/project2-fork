@@ -1,0 +1,46 @@
+@import "../../styles/variables.scss";
+@import "../../styles/breakpoints.scss";
+
+
+.sort-by{
+    margin: 30px 0 30px 30px;
+
+    label{
+      font-family: Jost-semiBold;
+      font-size: 20px;
+    }
+
+    select{
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: Jost-semiBold;
+      font-size: 24px;
+      color: white;
+
+      @include media('<=tablet'){
+        color: $yellow;
+      }
+    }
+  }
+
+  .display-none{
+    margin: 30px 0 30px 30px;
+
+    label{
+      font-family: Jost-semiBold;
+      font-size: 20px;
+    }
+
+    select{
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: Jost-semiBold;
+      font-size: 24px;
+      color: white;
+    }
+    @include media('<=tablet'){
+     display: none;
+    }
+  }

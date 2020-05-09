@@ -1,0 +1,315 @@
+@import "../styles/variables.scss";
+@import "../styles/breakpoints.scss";
+
+/* Recipe Component */
+
+.page-wrapper{
+  display: flex;
+  position: relative;
+
+  .recipe-left-container{
+    position: relative;
+    width: 50%;
+    height: 100vh;
+    overflow-y: scroll;
+    @include media('<=tablet'){
+      width: 100%;
+    }
+
+    .go-back{
+      position: absolute;
+      color: black;
+      font-size: 24px;
+      top: 100px;
+      left: 50px;
+    }
+
+    .recipe-card{
+      display: flex;
+      width: 90%;
+      height: 200px;
+      margin: 150px 0 20px 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 4px 4px 6px $shadow;
+
+      img{
+        width: 200px;
+        height: 200px;
+        border-radius: 10px;
+      }
+
+      .recipe-info{
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        justify-content: space-around;
+        width: 100%;
+
+        h2{
+          margin: 5px 0 10px 20px;
+          font-family: Jost-bold;
+        }
+
+        .star-ratings{
+          margin: 5px 0 10px 20px;
+        }
+
+        .extra-info-container{
+          margin: 5px 10px;
+          display: flex;
+          width: 70%;
+          height: 50px;
+          justify-content: space-between;
+          align-items: center;
+
+          .extra-info{
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            p{
+              font-family: Jost-semiBold;
+              margin: 10px 0 0 0;
+              color:black;
+            }
+  
+            .icon{
+              font-size: 20px;
+              color: black;
+            }
+          }
+
+        }
+      }
+
+    }
+
+    .recipe-left-container-bottom{
+      display: flex;
+
+      .left{
+        width: 50%;
+        border-top: 1px solid $grey;
+        border-right: 1px solid $grey;
+
+        .recipe-info-title{
+          margin-left: 30px;
+          font-family: Jost-Bold;
+        }
+
+        p{
+          font-family: Jost-regular;
+          font-size: 20px;
+          margin-left: 30px;
+        }
+
+        .tags{
+          margin: 50px 0 0 30px;
+          font-family: Jost-Bold;
+          color: $grey;
+        }
+      }
+    }
+    .right{
+      width: 50%;
+      border-top: 1px solid $grey;
+      border-right: 1px solid $grey;
+
+      h2{
+        margin-left: 30px;
+        font-family: Jost-Bold;
+      }
+
+      p{
+        font-family: Jost-regular;
+        font-size: 20px;
+        margin-left: 30px;
+      }
+    }
+  }
+
+  .recipe-container-right{
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    background-color: $yellow;
+    transition: all .2s ease-out;
+    @include media('<=tablet'){
+      background-color: white;
+      width: 100%;
+      height: 100px;
+      position: absolute;
+      bottom: 0;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .instructions-title-wrapper{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+      @include media('<=tablet'){
+        height: 100px;
+        background-color: $yellow;
+      }
+
+      .tab-title{
+        display: none;
+        @include media('<=tablet'){
+          display: flex;
+          width: 80%;
+          font-size: 30px;
+          margin: 10px 0 10px 30px;
+        }
+      }
+
+      .toggle-icon{
+        display: none;
+        @include media('<=tablet'){
+          display: flex;
+          align-self: center;
+          background-color: white;
+          border-radius: 50%;
+          font-size: 25px;
+          color: $yellow;
+          padding: 5px;
+          cursor: pointer;
+          box-shadow: $shadow 4px 4px 5px;
+        }
+      }
+    }
+
+    .instructions-wrapper-right{
+      width: 100%;
+      height: 100%;
+      @include media('<=tablet'){
+        display: none;
+      }
+
+      .instructions-title{
+        width: 80%;
+        font-family: Jost-Bold;
+        color: white;
+        font-size: 80px;
+        margin: 100px 0 0 30px;
+        line-height: 1.2em;
+      }
+
+      .instructions{
+        font-family: Jost-regular;
+        font-size: 20px;
+        margin: 20px 50px 0 30px ;
+  
+        span{
+          font-family: Jost-Bold;
+          font-size: 30px;
+        }
+      }
+  
+      .video-title{
+        margin: 20px 0 0 30px;
+        font-size: 70px;
+        color: white;
+        font-family: Jost-Bold;
+      }
+  
+      a{
+        font-family: Jost-regular;
+        font-size: 20px;
+        margin-left: 30px;
+        padding-bottom: 80px;
+        color: black;
+      }
+    }
+  }
+
+  .recipe-container-bottom{
+    background-color: white;
+    width: 100%;
+    height: 70%;
+    position: absolute;
+    bottom: 0;
+    overflow-y: scroll;
+    border-radius: 20px 20px 0 0;
+    transition: all .2s ease-out;
+
+    .instructions-title-wrapper{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top:0;
+      height: 100px;
+      background-color: $yellow;
+      border-radius: 20px 20px 0 0;
+      margin-bottom: 30px;
+      z-index: 50;
+
+      .tab-title{
+        width: 80%;
+        font-family: Jost-Bold;
+        font-size: 30px;
+        margin: 10px 0 10px 30px;
+      }
+
+      .toggle-icon{
+        display: flex;
+        align-self: center;
+        background-color: white;
+        border-radius: 50%;
+        font-size: 25px;
+        color: $yellow;
+        padding: 5px;
+        cursor: pointer;
+        box-shadow: $shadow 4px 4px 5px;
+        z-index: 50;
+      }
+    }
+  }
+
+  .instructions-wrapper-bottom{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px 20px 0 0;
+
+    .instructions-title{
+      color: $yellow;
+      font-family: Jost-Bold;
+      font-size: 50px;
+      margin: 20px 0 0 30px;
+    }
+
+    .instructions{
+      font-family: Jost-regular;
+      font-size: 20px;
+      margin: 20px 50px 0 30px ;
+
+      span{
+        font-family: Jost-Bold;
+        font-size: 30px;
+      }
+    }
+
+    .video-title{
+      margin: 20px 0 0 30px;
+      font-size: 50px;
+      color: $yellow;
+      font-family: Jost-Bold;
+    }
+
+    a{
+      font-family: Jost-regular;
+      font-size: 20px;
+      margin-left: 30px;
+      padding-bottom: 80px;
+      color: black;
+    }
+  }
+}
